@@ -71,6 +71,17 @@ public partial class GTA5MenuWindow
 
         ReadConfig();
     }
+    public static event Action ShowGTA5OnlineToolsRequested;
+    public static event Action HideGTA5OnlineToolsRequested;
+
+    private void ShowGTA5OnlineToolsButton_Click(object sender, RoutedEventArgs e)
+    {
+        ShowGTA5OnlineToolsRequested?.Invoke();
+    }
+    private void HideGTA5OnlineToolsButton_Click(object sender, RoutedEventArgs e)
+    {
+        HideGTA5OnlineToolsRequested?.Invoke();
+    }
 
     private void Window_GTA5Menu_Loaded(object sender, RoutedEventArgs e)
     {
@@ -111,6 +122,7 @@ public partial class GTA5MenuWindow
         HotKeys.RemoveKey(Keys.Oem3);
         // 取消订阅按钮事件（2023/06/24 这里一定要取消订阅，否则会照成事件累加）
         HotKeys.KeyDownEvent -= HotKeys_KeyDownEvent;
+        ShowGTA5OnlineToolsRequested?.Invoke();
     }
 
     /////////////////////////////////////////////////
@@ -296,4 +308,6 @@ public partial class GTA5MenuWindow
     {
         this.IsUseDelKeyShowMenu = RadioButton_ShowMenuKey_Del.IsChecked == true;
     }
+
+
 }

@@ -54,10 +54,32 @@ public partial class MainWindow
     public MainWindow()
     {
         InitializeComponent();
-
+        SubscribeToGTA5MenuEvents();
         CreateView();
     }
-
+    private void SubscribeToGTA5MenuEvents()
+    {
+        GTA5Menu.GTA5MenuWindow.ShowGTA5OnlineToolsRequested += ShowWindow;
+        GTA5Menu.GTA5MenuWindow.HideGTA5OnlineToolsRequested += HideWindow;
+    }
+    private void ShowWindow()
+    {
+        Dispatcher.Invoke(() =>
+        {
+            Show();
+            WindowState = WindowState.Normal;
+            Activate();
+        });
+    }
+    private void HideWindow()
+    {
+        Dispatcher.Invoke(() =>
+        {
+            Hide();
+            //WindowState = WindowState.Normal;
+            //Activate();
+        });
+    }
     /// <summary>
     /// 窗口加载完成事件
     /// </summary>
