@@ -66,9 +66,17 @@ public partial class MainWindow
     {
         Dispatcher.Invoke(() =>
         {
-            Show();
-            WindowState = WindowState.Normal;
-            Activate();
+            try
+            {
+                Show();
+                WindowState = WindowState.Normal;
+                Activate();
+            }
+            catch
+            {
+                
+            }
+            
         });
     }
     private void HideWindow()
