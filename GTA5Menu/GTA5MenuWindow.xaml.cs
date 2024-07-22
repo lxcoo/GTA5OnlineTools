@@ -71,17 +71,6 @@ public partial class GTA5MenuWindow
 
         ReadConfig();
     }
-    public static event Action ShowGTA5OnlineToolsRequested;
-    public static event Action HideGTA5OnlineToolsRequested;
-
-    private void ShowGTA5OnlineToolsButton_Click(object sender, RoutedEventArgs e)
-    {
-        ShowGTA5OnlineToolsRequested?.Invoke();
-    }
-    private void HideGTA5OnlineToolsButton_Click(object sender, RoutedEventArgs e)
-    {
-        HideGTA5OnlineToolsRequested?.Invoke();
-    }
 
     private void Window_GTA5Menu_Loaded(object sender, RoutedEventArgs e)
     {
@@ -122,7 +111,6 @@ public partial class GTA5MenuWindow
         HotKeys.RemoveKey(Keys.Oem3);
         // 取消订阅按钮事件（2023/06/24 这里一定要取消订阅，否则会照成事件累加）
         HotKeys.KeyDownEvent -= HotKeys_KeyDownEvent;
-        ShowGTA5OnlineToolsRequested?.Invoke();
     }
 
     /////////////////////////////////////////////////
@@ -134,13 +122,16 @@ public partial class GTA5MenuWindow
     {
         var isUseDelKey = IniHelper.ReadValue("GTA5Menu", "IsUseDelKeyShowMenu").Equals("True", StringComparison.OrdinalIgnoreCase);
         var isTopMost = IniHelper.ReadValue("GTA5Menu", "IsTopMostMenu").Equals("True", StringComparison.OrdinalIgnoreCase);
+        var isHideInTaskbar = IniHelper.ReadValue("GTA5Menu", "IsHideInTaskbarMenu").Equals("True", StringComparison.OrdinalIgnoreCase);
 
         RadioButton_ShowMenuKey_Oem3.IsChecked = !isUseDelKey;
         RadioButton_ShowMenuKey_Del.IsChecked = isUseDelKey;
 
         CheckBox_IsTopMost.IsChecked = isTopMost;
+        CheckBox_IsHideInTaskbar.IsChecked = isHideInTaskbar;
 
         this.Topmost = isTopMost;
+        this.ShowInTaskbar = !isHideInTaskbar;
 
         this.IsUseDelKeyShowMenu = RadioButton_ShowMenuKey_Del.IsChecked == true;
     }
@@ -153,6 +144,7 @@ public partial class GTA5MenuWindow
         IniHelper.WriteValue("GTA5Menu", "IsUseDelKeyShowMenu", $"{RadioButton_ShowMenuKey_Del.IsChecked == true}");
 
         IniHelper.WriteValue("GTA5Menu", "IsTopMostMenu", $"{CheckBox_IsTopMost.IsChecked == true}");
+        IniHelper.WriteValue("GTA5Menu", "IsHideInTaskbarMenu", $"{CheckBox_IsHideInTaskbar.IsChecked == true}");
     }
 
     /// <summary>
@@ -209,7 +201,9 @@ public partial class GTA5MenuWindow
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
+    private void CheckBox_IsHideInTaskbar_Click(object sender, RoutedEventArgs e)
     {
+        if (CheckBox_IsHideInTaskbar.IsChecked == true)
             this.ShowInTaskbar = false;
         else
             this.ShowInTaskbar = true;
