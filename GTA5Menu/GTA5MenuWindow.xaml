@@ -74,8 +74,6 @@
                     Content="窗口置顶"
                     WindowChrome.IsHitTestVisibleInChrome="True" />
                 <CheckBox
-                    x:Name="CheckBox_IsHideInTaskbar"
-                    Click="CheckBox_IsHideInTaskbar_Click"
                     Content="隐藏任务栏图标"
                     WindowChrome.IsHitTestVisibleInChrome="True" />
             </StackPanel>
@@ -121,6 +119,8 @@
         </Border>
         <!--  内容显示区域  -->
         <ContentControl x:Name="ContentControl_NavRegion" Grid.Column="1" />
+        <Button Content="  恢复&#x0a;主界面"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5" Click="ShowGTA5OnlineToolsButton_Click"/>
+        <Button Content="  隐藏&#x0a;主界面"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5,5,5,55" Click="HideGTA5OnlineToolsButton_Click"/>
     </Grid>
 
 </ui:Window>
